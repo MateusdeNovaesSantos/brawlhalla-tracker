@@ -1,0 +1,46 @@
+# Arquivo de configuração do Git para o projeto Brawhalla Tracker
+
+#Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Dependências
+node_modules
+.pnpm-store
+
+# Arquivos de buil e cache
+.next/
+dist/
+build/
+.output/
+.vercel/
+
+# Arquivos de ambiente
+.env
+.env*.local
+.env.development.local
+.env.test.local
+.env.poduction.local
+
+# Arquivos do prisma
+*.db
+*.db-journal
+
+#Arquivos sistema operaconal
+.DS_Store
+Thumbs.db
+
+# Arquivos do Editor de código
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,16 @@
+{
+  "name": "my-legends",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd legends-backend && pnpm dev\" \"cd legends-front && pnpm dev\" \"docker-compose up -d\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}

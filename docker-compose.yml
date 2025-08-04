@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: brawlhalla-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'Dupl0Mais_gosto'
+      MYSQL_DATABASE: brawlhalla_db
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:

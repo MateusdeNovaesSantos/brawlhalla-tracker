@@ -1,0 +1,128 @@
+Documento de Requisitos: Aplicativo de Gerenciamento de Progresso de Brawlhalla
+
+1. Requisitos Funcionais (Front-end)
+
+1.1. Estrutura e Navegação
+
+  • A aplicação terá uma sidebar (`shadcn/ui`) fixa para navegação principal.
+  • A sidebar conterá as seguintes seções:
+      • "Games": Gerenciamento de XP e Gold.
+      • "Cores": Gerenciamento de paletas de cores.
+  • Haverá um botão na parte superior da interface para alternar o tema entre claro e escuro (`shadcn/ui`).
+
+1.2. Seção "Games"
+
+  • Combobox de Seleção: Dentro desta seção, haverá uma combobox (`shadcn/ui`) para selecionar o filtro principal. A seleção pode ser por "Legend" ou por "Arma".
+  • Cards de Detalhes:
+      • Um card para Gold.
+      • Um card para XP.
+  • Visão Geral Superior de cada card: Exibirá o valor total de XP e Gold acumulados com base na seleção.
+  • Filtros de Exibição: Dentro de cada card, o usuário poderá selecionar a visualização dos dados por:
+      • 1 dia (padrão)
+      • 7 dias
+      • 15 dias
+      • 1 mês
+      • 6 meses
+      • 1 ano
+  • Cálculo de Média: Será possível visualizar a média dos resultados para o período selecionado.
+  • Adicionar Registro de Partida:
+      • Um formulário permitirá adicionar novos registros de partida, incluindo Gold e XP.
+      • Cada registro será associado à seleção atual (Legend ou Arma) e à data atual.
+  • Filtros Adicionais das partidas: Os dados exibidos deverão ser filtráveis por:
+      • Todas(padrão)
+      • Vitórias
+      • Derrotas
+
+1.3. Seção "Cores"
+
+  • Combobox de Seleção: Haverá uma combobox para selecionar o Legend do Brawlhalla. Todas as informações exibidas serão filtradas com base no Legend selecionado.
+  • Paleta de Cores: Exibirá as cores que o Legend selecionado possui.
+  • Alterar Cores: Permitirá ao usuário modificar as cores existentes.
+  • Status da Cor: Um switch permitirá alternar o estado de cada cor (`true` para "tem" ou `false` para "não tem").
+  • Checkbox "Cores universais":
+      • Uma checkbox permitirá aplicar a alteração de status (`true` ou `false`) de uma cor para todos os Legends de uma vez.
+      • Quando esta opção estiver marcada, a alteração de status de uma cor específica irá modificar o campo `hasColor` de todos os registros na tabela `LegendColorOwnership` que correspondem àquela cor, independentemente do Legend.
+
+-----
+
+2. Stack de Tecnologias
+
+  • Front-end:
+      • Framework: React + Next.js
+      • Linguagem: TypeScript
+      • Estilização: Tailwind CSS
+      • Componentes: shadcn/ui
+  • Back-end:
+      • Ambiente de Runtime: Node.js
+      • Framework: Express
+      • Linguagem: TypeScript
+      • ORM: Prisma
+  • Banco de Dados: MySQL
+
+-----
+
+3. Modelagem do Banco de Dados
+
+3.1. Representação Simplificada
+
+Aqui está a modelagem do banco de dados de forma simplificada, sem o código.
+
+  • Tabela de Legends: Lista de todos os personagens.
+  • Tabela de Armas: Lista de todas as armas do jogo.
+  • Tabela de Cores: Lista de todas as cores disponíveis.
+  • Tabela de Partidas (Games): Registra os detalhes de cada partida, incluindo XP, Gold e vitórias/derrotas.
+      • Conecta-se com Legends (para saber qual personagem foi usado).
+  • Tabela de "Armas de Legends" (ligação): Define quais duas armas cada Legend utiliza.
+  • Tabela de "Posses de Cores" (ligação): Registra se você tem uma cor para um Legend específico e permite alterar o status (`true` ou `false`).
+
+3.2. Modelagem Detalhada com Prisma
+
+```prisma
+// Esquema do Banco de Dados com Prisma
+
+model Legend {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  weapons    Arma[]   @relation(name: "LegendWeapons")
+  colors  LegendColorOwnership[]
+  games   Game[]
+}
+
+model Arma {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  legends Legend[] @relation(name: "LegendWeapons")
+}
+
+model Color {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  legends LegendColorOwnership[]
+}
+
+model LegendColorOwnership {
+  id      Int      @id @default(autoincrement())
+  legend  Legend   @relation(fields: [legendId], references: [id])
+  legendId Int
+  color   Color    @relation(fields: [colorId], references: [id])
+  colorId Int
+  hasColor Boolean  @default(false)
+
+  @@unique([legendId, colorId])
+}
+
+model Game {
+  id      Int      @id @default(autoincrement())
+  date    DateTime @default(now())
+  gold    Int
+  xp      Int
+  victory Boolean
+  legend  Legend   @relation(fields: [legendId], references: [id])
+  legendId Int
+}
+```
+A modelagem acima inclui as seguintes relações:
+
+  • Legend e Arma: Relação de muitos-para-muitos, onde um Legend tem duas armas e uma arma pode ser usada por vários Legends. A tabela _LegendToArma é gerada automaticamente pelo Prisma para gerenciar essa ligação.
+  • Legend e Color: Relação de muitos-para-muitos, com a tabela de ligação explícita LegendColorOwnership para armazenar o status hasColor.
+  • Game: Tabela principal para os registros de partida. Uma partida é sempre vinculada a um Legend. A informação das armas é implicitamente conectada através da relação de Legend para Arma.

@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Esquema do Banco de Dados com Prisma
+
+model Legend {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  weapons   Weapon[]   @relation(name: "LegendWeapons")
+  colors    LegendColorOwnership[]
+  games     Game[]
+}
+
+model Weapon {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  legends   Legend[] @relation(name: "LegendWeapons")
+}
+
+model Color {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  category  String
+  legends   LegendColorOwnership[]
+}
+
+model LegendColorOwnership {
+  id        Int      @id @default(autoincrement())
+  legend    Legend   @relation(fields: [legendId], references: [id])
+  legendId  Int
+  color     Color    @relation(fields: [colorId], references: [id])
+  colorId   Int
+  hasColor  Boolean  @default(false)
+
+  @@unique([legendId, colorId])
+}
+
+model Game {
+  id        Int      @id @default(autoincrement())
+  date      DateTime @default(now())
+  gold      Int
+  xp        Int
+  victory   Boolean
+  legend    Legend   @relation(fields: [legendId], references: [id])
+  legendId  Int
+}
