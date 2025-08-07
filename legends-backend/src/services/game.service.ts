@@ -4,7 +4,7 @@ import { prisma } from '../lib/prisma';
 export type GameStatsFilters = {
     filterBy: 'legend' | 'weapon';
     id: number;
-    period?: '1d' | '7d' | '15d' | '30d' | '6m' | '1y';
+    period?: '1d' | '7d' | '30d' | '6m' | '1y';
     result?: 'victory' | 'loss' | 'all';
 }
 
@@ -15,8 +15,6 @@ const getStartDate = (period: GameStatsFilters['period']): Date | undefined => {
             return new Date(now.setDate(now.getDate() - 1));
         case '7d':
             return new Date(now.setDate(now.getDate() - 7));
-        case '15d':
-            return new Date(now.setDate(now.getDate() - 15));
         case '30d':
             return new Date(now.setDate(now.getDate() - 30));
         case '6m':

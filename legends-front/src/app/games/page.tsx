@@ -33,7 +33,7 @@ export default function GamesPage() {
     // Estado para controlar os filtros selecionados pelo usuário
     const [filterType, setFilterType] = useState<'legend' | 'weapon'>('legend');
     const [selectedId, setSelectedId] = useState<number | null>(null);
-    const [period, setPeriod] = useState<'7d' | '15d' | '30d' | '6m' | '1y'>('7d');
+    const [period, setPeriod] = useState<'1d' | '7d' | '30d' | '6m' | '1y'>('7d');
     const [result, setResult] = useState<'all' | 'win' | 'lose'>('all');
 
     // Estado para guardar os dados recebidos da API
@@ -75,7 +75,6 @@ export default function GamesPage() {
                     period,
                     result,
                 });
-                console.log("Estatísticas recebidas:", data);
                 setStats(data);
             } catch (error) {
                 console.error("Failed to fetch stats", error);
@@ -133,11 +132,11 @@ export default function GamesPage() {
                     value={period}
                     onValueChange={(value) => { if (value) setPeriod(value as any); }}
                 >
-                    <ToggleGroupItem value="7d">7D</ToggleGroupItem>
-                    <ToggleGroupItem value="15d">15D</ToggleGroupItem>
-                    <ToggleGroupItem value="30d">30D</ToggleGroupItem>
-                    <ToggleGroupItem value="6m">6M</ToggleGroupItem>
-                    <ToggleGroupItem value="1y">1Y</ToggleGroupItem>
+                    <ToggleGroupItem value="1d">1d</ToggleGroupItem>
+                    <ToggleGroupItem value="7d">7d</ToggleGroupItem>
+                    <ToggleGroupItem value="30d">1m</ToggleGroupItem>
+                    <ToggleGroupItem value="6m">6m</ToggleGroupItem>
+                    <ToggleGroupItem value="1y">1y</ToggleGroupItem>
                 </ToggleGroup>
 
                 <ToggleGroup

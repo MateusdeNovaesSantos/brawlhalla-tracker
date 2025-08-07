@@ -78,3 +78,15 @@ export const updateUniversalColorOwnership = async (colorId: number, hasColor: b
     if (!response.ok) throw new Error('Failed to update universal color ownership');
     return response.json();
 }
+
+export const fetchLegendsByColor = async (colorId: number) => {
+    const response = await fetch(`${API_BASE_URL}/colors/${colorId}/legends`);
+    if (!response.ok) throw new Error('Failed to fetch legends by color');
+    return response.json();
+}
+
+export const fetchColors = async () => {
+    const response = await fetch(`${API_BASE_URL}/colors`);
+    if(!response.ok) throw new Error('Failed to fetch colors');
+    return response.json();
+}

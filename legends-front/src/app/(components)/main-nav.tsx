@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Swords, Palette } from 'lucide-react';
+import { Swords, Palette, Search } from 'lucide-react';
 
 const navItems = [
     { href: '/games', label: 'Games', icon: Swords },
     { href: '/cores', label: 'Cores', icon: Palette },
+    { href: '/busca-cor', label: 'Busca por cor', icon: Search },
 ]
 
 export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {

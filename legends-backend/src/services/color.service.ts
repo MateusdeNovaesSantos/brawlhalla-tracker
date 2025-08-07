@@ -2,9 +2,7 @@ import { prisma } from '../lib/prisma'
 
 export const ColorService = {
     getAll: async () => {
-        return prisma.color.findMany({
-            orderBy: { name: 'asc' },
-        });
+        return prisma.color.findMany();
     },
     
     // Busca as cores para um Legend específico
@@ -48,5 +46,18 @@ export const ColorService = {
                 hasColor: hasColor,
             },
         });
+    },
+
+    getLegendsByColor: async (colorId: number) => {
+        const ownerships = await prisma.legendColorOwnership.findMany({
+            where: {
+                colorId: colorId,
+                hasColor: true,
+            },
+            include: {
+                legend: true,
+            },
+        });
+        return ownerships.map(ownerships => ownerships.legend);
     },
 };

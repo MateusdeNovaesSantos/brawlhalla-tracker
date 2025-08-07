@@ -59,4 +59,21 @@ export const ColorController = {
             res.status(500).json({ error: 'Falha ao atualizar a cor universalmente.' })
         }
     },
+
+    getLegendsByColor: async (req: Request, res: Response) => {
+        try {
+            const colorId = parseInt(req.params.colorId, 10);
+            
+            if (isNaN(colorId)) {
+                return res.status(400).json({ error: "ID de cor inválido." });
+            }
+
+            const legends = await ColorService.getLegendsByColor(colorId);
+            res.status(200).json(legends);
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Falha ao buscar legends pela cor.' });
+        }
+    },
 };
