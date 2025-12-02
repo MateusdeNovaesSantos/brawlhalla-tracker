@@ -111,7 +111,14 @@ export default function GamesPage() {
                 <ToggleGroup 
                     type="single" 
                     value={filterType} 
-                    onValueChange={(value) => { if (value) { setFilterType(value as any); setSelectedId(null); } }}
+                    onValueChange={
+                        (value) => {
+                             if (value) {
+                                setFilterType(value as 'legend' | 'weapon');
+                                setSelectedId(null);
+                            } 
+                        }
+                    }
                 >
                     <ToggleGroupItem value="legend">Legend</ToggleGroupItem>
                     <ToggleGroupItem value="weapon">Arma</ToggleGroupItem>
@@ -130,7 +137,11 @@ export default function GamesPage() {
                 <ToggleGroup
                     type="single"
                     value={period}
-                    onValueChange={(value) => { if (value) setPeriod(value as any); }}
+                    onValueChange={
+                        (value) => {
+                            if (value) setPeriod(value as '7d' | '15d' | '30d' | '6m' | '1y');
+                        }
+                    }
                 >
                     <ToggleGroupItem value="1d">1d</ToggleGroupItem>
                     <ToggleGroupItem value="7d">7d</ToggleGroupItem>
@@ -142,7 +153,11 @@ export default function GamesPage() {
                 <ToggleGroup
                     type="single"
                     value={result}
-                    onValueChange={(value) => { if (value) setResult(value as any); }}
+                    onValueChange={
+                        (value) => {
+                            if (value) setResult(value as 'all' | 'victory' | 'loss');
+                        }
+                    }
                 >
                     <ToggleGroupItem value="all">Todas</ToggleGroupItem>
                     <ToggleGroupItem value="victory">Vitórias</ToggleGroupItem>
