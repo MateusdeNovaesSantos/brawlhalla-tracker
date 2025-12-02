@@ -68,6 +68,7 @@ const legendsData = [
     { name: 'King Zuva', weapons: ['Hammer', 'Battle Boots'] },
     { name: 'Priya', weapons: ['Chakram', 'Sword'] },
     { name: 'Ransom', weapons: ['Chakram', 'Bow'] },
+    { name: 'Lady Vera', weapons: ['Chakram', 'Scythe']}
 ]
 
 const colorsData = [
