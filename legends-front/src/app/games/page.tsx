@@ -139,7 +139,7 @@ export default function GamesPage() {
                     value={period}
                     onValueChange={
                         (value) => {
-                            if (value) setPeriod(value as '7d' | '15d' | '30d' | '6m' | '1y');
+                            if (value) setPeriod(value as '1d' | '7d' | '30d' | '6m' | '1y');
                         }
                     }
                 >
@@ -155,7 +155,7 @@ export default function GamesPage() {
                     value={result}
                     onValueChange={
                         (value) => {
-                            if (value) setResult(value as 'all' | 'victory' | 'loss');
+                            if (value) setResult(value as 'all' | 'win' | 'lose');
                         }
                     }
                 >
